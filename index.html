@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Une invitation pour demain soir</title>
+    <style>
+        :root {
+            --rose-1: #ff5ea8;
+            --rose-2: #ff8cb6;
+            --rose-3: #ffd7eb;
+            --violet: #7a4dff;
+            --red: #ff3b70;
+            --green: #29c77f;
+            --text: #4f1d35;
+            --white: #fffafc;
+            --shadow: rgba(196, 45, 109, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.80), transparent 18%),
+                radial-gradient(circle at 80% 10%, rgba(255,255,255,0.60), transparent 16%),
+                linear-gradient(135deg, #ffe7f1 0%, #ffd4e6 26%, #ffbdd9 55%, #f9b3d2 100%);
+            color: var(--text);
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .bg-glow,
+        .sparkles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .bg-glow {
+            background:
+                radial-gradient(circle at 15% 30%, rgba(255,255,255,0.6), transparent 20%),
+                radial-gradient(circle at 80% 25%, rgba(122,77,255,0.15), transparent 18%),
+                radial-gradient(circle at 50% 80%, rgba(255,80,140,0.18), transparent 24%);
+            filter: blur(26px);
+        }
+
+        .sparkles span {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 0 12px rgba(255,255,255,0.8);
+            animation: twinkle 2.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { transform: scale(0.8); opacity: 0.3; }
+            100% { transform: scale(1.5); opacity: 1; }
+        }
+
+        .card {
+            position: relative;
+            z-index: 2;
+            width: min(92vw, 640px);
+            padding: 30px 26px 26px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.28);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 30px 70px var(--shadow);
+            text-align: center;
+            animation: floatingCard 5s ease-in-out infinite;
+        }
+
+        @keyframes floatingCard {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .emoji-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fff, #ffdff0);
+            box-shadow: 0 18px 30px rgba(255, 94, 168, 0.32);
+            font-size: 2.3rem;
+            margin-bottom: 12px;
+            animation: pulse 1.7s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        h1 {
+            margin: 8px 0 18px;
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            line-height: 1.15;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ff3d7a, #ff8a5c, #7d5dff, #ff4bac);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 2px 2px rgba(255,255,255,0.6);
+        }
+
+        .sticker {
+            width: min(53vw, 250px);
+            height: 190px;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            border: 4px solid rgba(255,255,255,0.65);
+            box-shadow: 0 25px 45px rgba(255, 59, 118, 0.22);
+            background: radial-gradient(circle, #fff 0%, #ffe1ef 72%, #ffc5dc 100%);
+            font-size: clamp(7rem, 24vw, 10rem);
+            line-height: 1;
+            animation: zoomIn 0.7s ease, heartBeat 1.3s ease-in-out 0.7s infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.12); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.08); }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+            transition: all 0.3s ease;
+        }
+
+        button {
+            border: none;
+            border-radius: 999px;
+            padding: 16px 30px;
+            font-size: 1.12rem;
+            font-weight: 800;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.24s ease, box-shadow 0.24s ease, filter 0.24s ease;
+        }
+
+        button::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.42) 50%, transparent 100%);
+            transform: translateX(-120%);
+            transition: transform 0.55s ease;
+        }
+
+        button:hover::before {
+            transform: translateX(120%);
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #2ec771, #6de0a3);
+            color: white;
+            box-shadow: 0 16px 28px rgba(46, 199, 113, 0.42);
+        }
+
+        #yesBtn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 20px 34px rgba(46, 199, 113, 0.55);
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #ff5f7a, #ff3c6b);
+            color: white;
+            box-shadow: 0 16px 28px rgba(255, 60, 107, 0.42);
+            animation: heartbeat 1.7s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.05); }
+            45% { transform: scale(0.97); }
+            70% { transform: scale(1.04); }
+        }
+
+        #noBtn:hover {
+            filter: brightness(1.08);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .hearts,
+        .confetti {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -60px;
+            font-size: 1.2rem;
+            opacity: 0.85;
+            animation: fall 9s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(22deg);
+                opacity: 0;
+            }
+        }
+
+        .receipt {
+            margin-top: 18px;
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,240,247,0.9));
+            border: 1px solid rgba(255, 99, 156, 0.2);
+            box-shadow: 0 18px 28px rgba(255, 99, 156, 0.12);
+            text-align: left;
+            animation: appear 0.6s ease;
+        }
+
+        @keyframes appear {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .receipt-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #b81d5d;
+            font-weight: 800;
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+        }
+
+        .receipt-body {
+            color: #5a2d45;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .stamp {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 999px;
+            background: rgba(41, 199, 127, 0.14);
+            color: #1f8f5f;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .email-status {
+            min-height: 1.5em;
+            margin: 12px 0 0;
+            color: #a32143;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 16px;
+            opacity: 0.9;
+            animation: confetti-fall 2.8s ease-in forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-20px) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(180px) rotate(220deg) scale(0.8);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow"></div>
+    <div class="sparkles" id="sparkles"></div>
+    <div class="hearts" id="hearts"></div>
+    <div class="confetti" id="confetti"></div>
+
+    <div class="card">
+        <div class="emoji-badge">💖</div>
+        <div id="sticker" class="sticker" role="img" aria-label="Cœur animé">💗</div>
+        <h1 id="question">Tu accepterais de sortir avec moi demain soir ? ❤️</h1>
+
+        <div class="buttons">
+            <button id="yesBtn" onclick="accepter()">Oui !</button>
+            <button id="noBtn" onmouseover="fuir()" ontouchstart="fuir()">Non</button>
+        </div>
+        <p id="emailStatus" class="email-status" role="status" aria-live="polite"></p>
+    </div>
+
+    <script>
+        function createSparkles() {
+            const container = document.getElementById('sparkles');
+            for (let i = 0; i < 18; i++) {
+                const sparkle = document.createElement('span');
+                sparkle.style.left = (Math.random() * 100) + '%';
+                sparkle.style.top = (Math.random() * 100) + '%';
+                sparkle.style.animationDelay = (Math.random() * 2.5) + 's';
+                sparkle.style.transform = 'scale(' + (0.6 + Math.random() * 1.6) + ')';
+                container.appendChild(sparkle);
+            }
+        }
+
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            const heartSymbols = ['💖', '💘', '💞', '💗', '💝'];
+
+            for (let i = 0; i < 18; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'heart';
+                heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = (Math.random() * 4) + 's';
+                heart.style.animationDuration = (6 + Math.random() * 5) + 's';
+                heart.style.fontSize = (0.9 + Math.random() * 1.4) + 'rem';
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        function createConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            const colors = ['#ff5ca8', '#ffcf5c', '#7a4dff', '#2ec771', '#ff6e6e', '#ffc2d6'];
+
+            for (let i = 0; i < 35; i++) {
+                const piece = document.createElement('span');
+                piece.className = 'confetti-piece';
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.top = Math.random() * 12 + '%';
+                piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.animationDelay = (Math.random() * 0.6) + 's';
+                piece.style.transform = 'rotate(' + (Math.random() * 180) + 'deg)';
+                confettiContainer.appendChild(piece);
+            }
+        }
+
+        function fuir() {
+            const noBtn = document.getElementById('noBtn');
+            const card = document.querySelector('.card');
+            const maxX = card.clientWidth - noBtn.offsetWidth - 20;
+            const maxY = card.clientHeight - noBtn.offsetHeight - 20;
+
+            const randomX = Math.max(10, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(10, Math.floor(Math.random() * maxY));
+
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        async function accepter() {
+            const card = document.querySelector('.card');
+            const question = document.getElementById('question');
+            const sticker = document.getElementById('sticker');
+            const buttons = document.querySelector('.buttons');
+            const yesBtn = document.getElementById('yesBtn');
+            const emailStatus = document.getElementById('emailStatus');
+            const now = new Date();
+            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            yesBtn.disabled = true;
+            emailStatus.textContent = 'Envoi de la notification…';
+
+            try {
+                const response = await fetch('https://formsubmit.co/ajax/zerosdje@gmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _subject: 'Réponse à mon invitation pour demain soir',
+                        name: 'Réponse à l’invitation de demain soir',
+                        message: `La personne concernée a accepté l’invitation à sortir demain soir le ${now.toLocaleString('fr-FR')}.`,
+                        clicked_at: now.toISOString()
+                    })
+                });
+                const data = await response.json();
+
+                if (!response.ok || data.success !== 'true') {
+                    throw new Error(data.message || `Erreur HTTP ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Erreur d’envoi de la notification :', error);
+                yesBtn.disabled = false;
+                emailStatus.textContent = 'La notification e-mail n’a pas pu être envoyée. Réessayez ou vérifiez l’activation de votre adresse e-mail.';
+                return;
+            }
+
+            emailStatus.textContent = '';
+            question.innerText = 'Génial ! À demain soir ! 🥰🎉';
+            sticker.textContent = '💖✨';
+            sticker.setAttribute('aria-label', 'Cœur animé avec des étoiles');
+            buttons.classList.add('hidden');
+
+            const receipt = document.createElement('div');
+            receipt.className = 'receipt';
+            receipt.innerHTML = `
+                <div class="receipt-header">
+                    <span>✅</span>
+                    <span>Accusé de réception</span>
+                </div>
+                <div class="receipt-body">
+                    Votre réponse a bien été envoyée par e-mail.<br>
+                    Merci d’avoir accepté mon invitation.<br>
+                    À demain soir ! (réponse envoyée à <strong>${time}</strong>).
+                    <div class="stamp">Confirmé</div>
+                </div>
+            `;
+            card.appendChild(receipt);
+
+            const heartsContainer = document.getElementById('hearts');
+            heartsContainer.innerHTML = '';
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'heart';
+                heart.textContent = ['💖', '💘', '💞', '💗', '💝'][Math.floor(Math.random() * 5)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = (Math.random() * 2) + 's';
+                heart.style.animationDuration = (4 + Math.random() * 4) + 's';
+                heart.style.fontSize = (1.2 + Math.random() * 1.8) + 'rem';
+                heartsContainer.appendChild(heart);
+            }
+
+            createConfetti();
+        }
+
+        createSparkles();
+        createHearts();
+    </script>
+</body>
+</html>
